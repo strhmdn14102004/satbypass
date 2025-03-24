@@ -7,6 +7,12 @@
   "sign_in_with_your_account": "Sign in with your account",
   "dont_have_account": "Don't have an account?",
   "create_here": "Create here",
+  "change_language": "Change language",
+  "change_pin": "Change PIN",
+  "theme_mode": "Theme mode",
+  "sign_out": "Sign out",
+  "home": "Home",
+  "account": "Account",
   "yes": "Yes"
 
 }
