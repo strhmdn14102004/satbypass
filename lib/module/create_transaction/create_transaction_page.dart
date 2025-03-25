@@ -18,11 +18,13 @@ import "package:smooth_corner/smooth_corner.dart";
 class TransactionPage extends StatefulWidget {
   final String itemId;
   final String name;
+  final String itemType;
   final double price;
 
   const TransactionPage({
     super.key,
     required this.itemId,
+    required this.itemType,
     required this.name,
     required this.price,
   });
@@ -215,6 +217,15 @@ class _TransactionPageState extends State<TransactionPage> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              "Detail_transaksi".tr(),
+              style: TextStyle(
+                color: AppColors.surface(),
+                fontWeight: FontWeight.bold,
+                fontSize: Dimensions.text16,
+              ),
+            ),
+            SizedBox(height: Dimensions.size15),
             _detailPembelian(),
             SizedBox(height: Dimensions.size35),
             _submitButton(context),
@@ -240,8 +251,13 @@ class _TransactionPageState extends State<TransactionPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _detailRow("Nama", widget.name),
-          _detailRow("Harga", "Rp ${widget.price}"),
+          _detailRow("name_item".tr(), widget.name),
+          SizedBox(height: Dimensions.size10),
+          _detailRow(
+            "price".tr(),
+            NumberFormat.currency(locale: 'id', symbol: 'Rp ')
+                .format(widget.price),
+          ),
         ],
       ),
     );
@@ -254,14 +270,16 @@ class _TransactionPageState extends State<TransactionPage> {
             ? null
             : () {
                 final transaction = CreateTransaction(
-                  itemType: "imei",
+                  itemType: widget.itemType,
                   itemId: widget.itemId,
                 );
                 context
                     .read<TransactionBloc>()
                     .add(CreateTransactionEvent(transaction));
               },
-        child: isLoading ? CircularProgressIndicator() : Text("Buat Transaksi"),
+        child: isLoading
+            ? CircularProgressIndicator()
+            : Text("Create_transaction".tr()),
       ),
     );
   }

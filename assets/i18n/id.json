@@ -37,6 +37,13 @@
   "MACBOOK_BYPASS":"Bypass MacBook",
   "UNLOCK_APPLE_WATCH":"Buka Kunci Apple Watch",
   "history_transaction": "Histori Transaksi",
+  "system": "Sistem",
+  "Detail_transaksi":"Detail Transaksi",
+  "Create_transaction":"Buat Transaksi",
+  "name_item": "Nama Item",
+  "price": "Harga",
+  "Pembayaran":"Pembayaran",
+  "status": "Status",
   "yes": "Iya"
 
 }

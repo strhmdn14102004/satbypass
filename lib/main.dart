@@ -67,6 +67,7 @@ final goRouter = GoRouter(
         final extra = state.extra as Map<String, dynamic>?;
 
         final name = extra?["name"] ?? "Nama Tidak Tersedia";
+        final itemType = extra?["itemType"] ?? "itemType Tidak Tersedia";
         final price = (extra?["price"] is int)
             ? (extra?["price"] as int).toDouble()
             : (extra?["price"] ?? 0.0);
@@ -75,6 +76,7 @@ final goRouter = GoRouter(
           itemId: itemId,
           name: name,
           price: price,
+          itemType: itemType,
         );
       },
     ),
@@ -299,7 +301,9 @@ class AppState extends State<App> {
         BlocProvider(create: (BuildContext context) => RootBloc()),
         BlocProvider(create: (BuildContext context) => HomeBloc()),
         BlocProvider(create: (BuildContext context) => AccountBloc()),
-        BlocProvider(create: (BuildContext context) => HistoryTransactionBloc(),),
+        BlocProvider(
+          create: (BuildContext context) => HistoryTransactionBloc(),
+        ),
         BlocProvider(create: (BuildContext context) => ImeiBloc()),
         BlocProvider(create: (BuildContext context) => BypassBloc()),
         BlocProvider(create: (BuildContext context) => TransactionBloc()),

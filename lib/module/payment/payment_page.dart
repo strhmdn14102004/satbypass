@@ -80,7 +80,8 @@ class _PaymentWebViewPageState extends State<PaymentWebViewPage> {
     return user == null
         ? BaseWidgets.shimmer()
         : Padding(
-            padding: EdgeInsets.only(right: Dimensions.size20),
+            padding: EdgeInsets.only(
+                left: Dimensions.size20, right: Dimensions.size20),
             child: Stack(
               alignment: Alignment.center,
               children: [

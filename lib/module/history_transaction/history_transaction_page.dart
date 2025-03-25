@@ -276,13 +276,6 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
                           borderRadius:
                               BorderRadius.circular(Dimensions.size20),
                         ),
-                        shadows: [
-                          BoxShadow(
-                            color: AppColors.shadow(),
-                            blurRadius: 8,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,

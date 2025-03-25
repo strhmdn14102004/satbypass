@@ -233,6 +233,9 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
             leading: const Icon(Icons.key),
             title: Text(
               "change_password".tr(),
+              style: TextStyle(
+                color: AppColors.onSurface(),
+              ),
             ),
             trailing: const Icon(Icons.chevron_right),
           ),
@@ -277,6 +280,9 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
                 Expanded(
                   child: Text(
                     "change_language".tr(),
+                    style: TextStyle(
+                      color: AppColors.onSurface(),
+                    ),
                   ),
                 ),
                 Text(
@@ -285,7 +291,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
                       : "Bahasa",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primary(),
+                    color: AppColors.onSecondaryContainer(),
                     fontSize: Dimensions.text14,
                   ),
                 ),
@@ -320,6 +326,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
 
               BaseSheets.spinner(
                 title: "theme_mode".tr(),
+                
                 context: Navigators.sideSheetNavigatorState.currentContext,
                 spinnerItems: spinnerItems,
                 onSelected: (selectedItem) async {
@@ -345,13 +352,16 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
                 Expanded(
                   child: Text(
                     "theme_mode".tr(),
+                    style: TextStyle(
+                      color: AppColors.onSurface(),
+                    ),
                   ),
                 ),
                 Text(
                   translateTheme(),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primary(),
+                    color: AppColors.onSecondaryContainer(),
                     fontSize: Dimensions.text14,
                   ),
                 ),
@@ -393,6 +403,9 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
             leading: const Icon(Icons.security),
             title: Text(
               "version".tr(),
+              style: TextStyle(
+                color: AppColors.onSurface(),
+              ),
             ),
             trailing: FutureBuilder<PackageInfo>(
               future: PackageInfo.fromPlatform(),
@@ -402,7 +415,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
                     snapshot.data!.version,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary(),
+                      color: AppColors.onSecondaryContainer(),
                     ),
                   );
                 } else {
@@ -415,7 +428,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
             height: Dimensions.size10,
           ),
           ListTile(
-              shape: SmoothRectangleBorder(
+            shape: SmoothRectangleBorder(
               borderRadius: BorderRadius.circular(Dimensions.size20),
               smoothness: 1,
               side: BorderSide(color: AppColors.outline()),

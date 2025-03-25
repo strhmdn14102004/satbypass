@@ -37,6 +37,13 @@
   "MACBOOK_BYPASS":"Bypass MacBook",
   "UNLOCK_APPLE_WATCH":"Unlock Apple Watch",
   "history_transaction": "History Transaction",
+  "system": "System",
+  "Detail_transaksi":"Detail Transaction",
+  "Create_transaction":"Buat Transaksi",
+  "name_item": "Name Item",
+  "price": "Price",
+  "Pembayaran": "Payment",
+  "status": "Status",
   "yes": "Yes"
 
 }
