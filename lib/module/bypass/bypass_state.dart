@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+import "package:equatable/equatable.dart";
 import "package:sasat_toko/api/endpoint/bypass/bypass_response.dart";
 
 abstract class BypassState extends Equatable {
@@ -11,12 +11,12 @@ class BypassInitial extends BypassState {}
 class BypassLoadLoading extends BypassState {}
 
 class BypassLoadSuccess extends BypassState {
-  final List<BypassModel> BypassList;
+  final List<BypassModel> bypassList;
 
-  BypassLoadSuccess({required this.BypassList});
+  BypassLoadSuccess({required this.bypassList});
 
   @override
-  List<Object> get props => [BypassList];
+  List<Object> get props => [bypassList];
 }
 
 class BypassLoadFailed extends BypassState {

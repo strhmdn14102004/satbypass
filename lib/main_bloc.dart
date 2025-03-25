@@ -3,11 +3,11 @@
 import "dart:async";
 
 import "package:base/base.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:sasat_toko/constant/preference_key.dart";
 import "package:sasat_toko/helper/preferences.dart";
 import "package:sasat_toko/main_event.dart";
 import "package:sasat_toko/main_state.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
 
 class MainBloc extends Bloc<MainEvent, MainState> {
   MainBloc() : super(MainState(themeMode: AppColors.themeMode())) {

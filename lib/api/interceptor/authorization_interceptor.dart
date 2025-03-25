@@ -1,10 +1,10 @@
 // ignore_for_file: always_specify_types
 
 import "package:base/base.dart";
+import "package:dio/dio.dart";
 import "package:sasat_toko/api/api_manager.dart";
 import "package:sasat_toko/constant/preference_key.dart";
 import "package:sasat_toko/helper/preferences.dart";
-import "package:dio/dio.dart";
 
 class AuthorizationInterceptor extends InterceptorsWrapper {
   @override

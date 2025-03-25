@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import "package:base/src/base_overlays.dart";
 import "package:dio/dio.dart";
 import "package:easy_localization/easy_localization.dart";

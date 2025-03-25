@@ -94,6 +94,14 @@ class RootPageState extends State<RootPage> with WidgetsBindingObserver {
             label: "home".tr(),
           ),
           NavigationDestination(
+            icon: Icon(Icons.history_outlined),
+            selectedIcon: Icon(
+              Icons.history_rounded,
+              color: AppColors.onPrimaryContainer(),
+            ),
+            label: "history_transaction".tr(),
+          ),
+          NavigationDestination(
             icon: Icon(Icons.account_circle_outlined),
             selectedIcon: Icon(
               Icons.account_circle,

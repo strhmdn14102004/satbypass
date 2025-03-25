@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, always_specify_types
 
 import "package:base/base.dart";
-
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
@@ -29,7 +28,8 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
   final TextEditingController tecEmailAddress = TextEditingController();
   final TextEditingController tecPassword = TextEditingController();
 
-  final GlobalKey<FormState> formState = GlobalKey<FormState>(debugLabel: "formState");
+  final GlobalKey<FormState> formState =
+      GlobalKey<FormState>(debugLabel: "formState");
 
   bool obscurePassword = true;
 
@@ -48,6 +48,9 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
           context.loaderOverlay.show();
         } else if (state is SignInSubmitSuccess) {
           context.go("/");
+        } else if (state is SignInSubmitFailed) {
+          context.loaderOverlay.hide();
+          BaseOverlays.error(message: state.errorMessage);
         } else if (state is SignInSubmitFinished) {
           context.loaderOverlay.hide();
         }
@@ -69,7 +72,7 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
                   children: [
                     Image.asset(
                       "assets/image/logo.png",
-                      width:200,
+                      width: 200,
                       height: 150,
                     ),
                     SizedBox(height: Dimensions.size80),
@@ -110,7 +113,9 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
                             prefixIcon: Icon(Icons.password),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -146,9 +151,10 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
                               fontSize: Dimensions.text14,
                               fontWeight: FontWeight.bold,
                             ),
-                            recognizer: TapGestureRecognizer()..onTap = () async {
-                              await context.push("/sign-up");
-                            },
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                await context.push("/sign-up");
+                              },
                           ),
                         ],
                       ),
@@ -158,17 +164,18 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
                       width: double.infinity,
                       child: FilledButton(
                         onPressed: () async {
-                          if (formState.currentState != null && formState.currentState!.validate()) {
+                          if (formState.currentState != null &&
+                              formState.currentState!.validate()) {
                             formState.currentState!.save();
 
                             context.read<SignInBloc>().add(
-                              SignInSubmit(
-                                signInRequest: SignInRequest(
-                                  username: tecEmailAddress.text,
-                                  password: tecPassword.text,
-                                ),
-                              ),
-                            );
+                                  SignInSubmit(
+                                    signInRequest: SignInRequest(
+                                      username: tecEmailAddress.text,
+                                      password: tecPassword.text,
+                                    ),
+                                  ),
+                                );
                           }
                         },
                         style: FilledButton.styleFrom(
@@ -189,12 +196,14 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
                         showSelectedIcon: false,
                         style: SegmentedButton.styleFrom(
                           shape: SmoothRectangleBorder(
-                            borderRadius: BorderRadius.circular(Dimensions.size10),
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.size10),
                             smoothness: 1,
                           ),
                           visualDensity: VisualDensity.compact,
                           selectedBackgroundColor: AppColors.primaryContainer(),
-                          selectedForegroundColor: AppColors.onPrimaryContainer(),
+                          selectedForegroundColor:
+                              AppColors.onPrimaryContainer(),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           textStyle: TextStyle(
                             fontSize: Dimensions.text12,
@@ -213,7 +222,9 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
                         ],
                         selected: {Language.valueOf("locale".tr())},
                         onSelectionChanged: (selected) {
-                          Generals.changeLanguage(locale: selected.first.locale);
+                          Generals.changeLanguage(
+                            locale: selected.first.locale,
+                          );
 
                           setState(() {});
                         },

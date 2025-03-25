@@ -17,9 +17,9 @@ class SignInResponse {
     );
 
     Map<String, dynamic> toJson() => {
-        "message": message??"",
-        "token": token??"",
-        "user": user.toJson()??"",
+        "message": message,
+        "token": token,
+        "user": user.toJson(),
     };
 }
 

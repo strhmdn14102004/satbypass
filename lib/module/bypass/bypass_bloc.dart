@@ -16,12 +16,12 @@ class BypassBloc extends Bloc<BypassEvent, BypassState> {
         Response response = await ApiManager.getBypass();
 
         if (response.statusCode == 200) {
-          final List<dynamic> BypassData = response.data; // Perbaikan di sini
+          final List<dynamic> bypassdata = response.data; // Perbaikan di sini
 
           emit(
             BypassLoadSuccess(
-              BypassList:
-                  BypassData.map((item) => BypassModel.fromJson(item)).toList(),
+              bypassList:
+                  bypassdata.map((item) => BypassModel.fromJson(item)).toList(),
             ),
           );
         } else {

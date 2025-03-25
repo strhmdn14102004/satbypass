@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import "package:bloc/bloc.dart";
 import "package:sasat_toko/api/api_manager.dart";
 import "package:sasat_toko/api/endpoint/sign_up/sign_up_request.dart";

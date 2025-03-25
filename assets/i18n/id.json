@@ -7,6 +7,10 @@
   "sign_in_with_your_account": "Masuk dengan akun Anda",
   "dont_have_account": "Belum punya akun?",
   "create_here": "Buat disini",
+  "full_name": "Nama Lengkap",
+  "address": "Alamat",
+  "phone_number": "Nomor Telepon",
+  "sign_up": "Daftar",
   "change_language": "Ubah bahasa",
   "change_pin": "Ubah PIN",
   "theme_mode": "Mode tema",
@@ -31,6 +35,7 @@
   "FMI_OFF_OPEN_MENU":"FMI OFF",
   "MACBOOK_BYPASS":"Bypass MacBook",
   "UNLOCK_APPLE_WATCH":"Buka Kunci Apple Watch",
+  "history_transaction": "histori transaksi",
   "yes": "Iya"
 
 }

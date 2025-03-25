@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:sasat_toko/api/endpoint/sign_in/sign_in_response.dart';
+import "package:equatable/equatable.dart";
+import "package:sasat_toko/api/endpoint/sign_in/sign_in_response.dart";
 
 abstract class SignInState extends Equatable {
   @override

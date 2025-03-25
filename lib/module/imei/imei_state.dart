@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+import "package:equatable/equatable.dart";
 import "package:sasat_toko/api/endpoint/imei/imei.dart";
 
 abstract class ImeiState extends Equatable {

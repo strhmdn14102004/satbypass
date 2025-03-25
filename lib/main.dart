@@ -19,6 +19,8 @@ import "package:sasat_toko/module/account/account_bloc.dart";
 import "package:sasat_toko/module/account/account_page.dart";
 import "package:sasat_toko/module/bypass/bypass_bloc.dart";
 import "package:sasat_toko/module/bypass/bypass_page.dart";
+import "package:sasat_toko/module/history_transaction/history_transaction_bloc.dart";
+import "package:sasat_toko/module/history_transaction/history_transaction_page.dart";
 import "package:sasat_toko/module/home/home_bloc.dart";
 import "package:sasat_toko/module/home/home_page.dart";
 import "package:sasat_toko/module/imei/imei_bloc.dart";
@@ -56,7 +58,7 @@ final goRouter = GoRouter(
         return const ImeiPage();
       },
     ),
-     GoRoute(
+    GoRoute(
       path: "/bypass-list",
       builder: (context, state) {
         return const BypassPage();
@@ -73,6 +75,16 @@ final goRouter = GoRouter(
               path: "/",
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: HomePage());
+              },
+            ),
+          ],
+        ),
+         StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: "/history_transaction",
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: HistoryTransactionPage());
               },
             ),
           ],
@@ -124,24 +136,24 @@ void main() async {
 
   AppColors.lightColorScheme = const ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xffa1c4fd), // Biru pastel lembut
-    surfaceTint: Color(0xffc3aed6), // Ungu pastel lembut
+    primary: Color(0xffa1c4fd),
+    surfaceTint: Color(0xffc3aed6),
     onPrimary: Color(0xffffffff),
-    primaryContainer: Color(0xffd4eaf7), // Biru pastel terang
+    primaryContainer: Color(0xffd4eaf7),
     onPrimaryContainer: Color(0xff2c3e50),
-    secondary: Color(0xfff6d365), // Kuning pastel
+    secondary: Color(0xfff6d365),
     onSecondary: Color(0xff000000),
-    secondaryContainer: Color(0xfffff8d2), // Kuning terang
+    secondaryContainer: Color(0xfffff8d2),
     onSecondaryContainer: Color(0xff4d4800),
-    tertiary: Color(0xffc3aed6), // Ungu pastel
+    tertiary: Color(0xffc3aed6),
     onTertiary: Color(0xffffffff),
-    tertiaryContainer: Color(0xffe6ccff), // Ungu terang
+    tertiaryContainer: Color(0xffe6ccff),
     onTertiaryContainer: Color(0xff4a235a),
-    error: Color(0xfff7a1a1), // Merah pastel
+    error: Color(0xfff7a1a1),
     onError: Color(0xffffffff),
     errorContainer: Color(0xffffdad6),
     onErrorContainer: Color(0xff93000a),
-    surface: Color(0xfff8f9fa), // Abu-abu sangat terang
+    surface: Color(0xfff8f9fa),
     onSurface: Color(0xff2c3e50),
     onSurfaceVariant: Color(0xff5d6d7e),
     outline: Color(0xffaeb6bf),
@@ -149,7 +161,7 @@ void main() async {
     shadow: Color(0xff000000),
     scrim: Color(0xff000000),
     inverseSurface: Color(0xff2c3e50),
-    inversePrimary: Color(0xff7eb3e7), // Biru pastel sedang
+    inversePrimary: Color(0xff7eb3e7),
     primaryFixed: Color(0xffd4eaf7),
     onPrimaryFixed: Color(0xff102000),
     primaryFixedDim: Color(0xffa1c4fd),
@@ -173,24 +185,24 @@ void main() async {
 
   AppColors.darkColorScheme = const ColorScheme(
     brightness: Brightness.dark,
-    primary: Color(0xff7eb3e7), // Biru pastel gelap
-    surfaceTint: Color(0xffc3aed6), // Ungu pastel lembut
+    primary: Color(0xff7eb3e7),
+    surfaceTint: Color(0xffc3aed6),
     onPrimary: Color(0xff1f3701),
     primaryContainer: Color(0xff2c3e50),
     onPrimaryContainer: Color(0xffd4eaf7),
-    secondary: Color(0xfff6d365), // Kuning pastel
+    secondary: Color(0xfff6d365),
     onSecondary: Color(0xff353200),
     secondaryContainer: Color(0xff4d4800),
     onSecondaryContainer: Color(0xfffff8d2),
-    tertiary: Color(0xffc3aed6), // Ungu pastel
+    tertiary: Color(0xffc3aed6),
     onTertiary: Color(0xff003352),
     tertiaryContainer: Color(0xff4a235a),
     onTertiaryContainer: Color(0xffe6ccff),
-    error: Color(0xfff7a1a1), // Merah pastel
+    error: Color(0xfff7a1a1),
     onError: Color(0xff690005),
     errorContainer: Color(0xff93000a),
     onErrorContainer: Color(0xffffdad6),
-    surface: Color(0xff121212), // Dark mode abu-abu gelap
+    surface: Color(0xff121212),
     onSurface: Color(0xffe2e3d8),
     onSurfaceVariant: Color(0xffc5c8ba),
     outline: Color(0xff8f9285),
@@ -267,6 +279,7 @@ class AppState extends State<App> {
         BlocProvider(create: (BuildContext context) => RootBloc()),
         BlocProvider(create: (BuildContext context) => HomeBloc()),
         BlocProvider(create: (BuildContext context) => AccountBloc()),
+        BlocProvider(create: (BuildContext context) => HistoryTransactionBloc()),
         BlocProvider(create: (BuildContext context) => ImeiBloc()),
         BlocProvider(create: (BuildContext context) => BypassBloc()),
       ],

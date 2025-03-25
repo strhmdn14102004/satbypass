@@ -1,10 +1,10 @@
 // ignore_for_file: empty_catches
 
 import "package:basic_utils/basic_utils.dart";
-import "package:sasat_toko/helper/extensions.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
 import "package:jiffy/jiffy.dart";
+import "package:sasat_toko/helper/extensions.dart";
 
 class Formats {
   static String spell(dynamic value) {

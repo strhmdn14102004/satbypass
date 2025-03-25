@@ -17,7 +17,7 @@ class BypassPage extends StatefulWidget {
 
 class BypassPageState extends State<BypassPage> {
   bool loading = false;
-  List<BypassModel>? BypassList;
+  List<BypassModel>? bypassList;
 
   @override
   void initState() {
@@ -32,10 +32,10 @@ class BypassPageState extends State<BypassPage> {
         if (state is BypassLoadLoading) {
           setState(() {
             loading = true;
-            BypassList = null;
+            bypassList = null;
           });
         } else if (state is BypassLoadSuccess) {
-          BypassList = state.BypassList;
+          bypassList = state.bypassList;
           setState(() {});
         } else if (state is BypassLoadFinished) {
           setState(() {
@@ -58,7 +58,7 @@ class BypassPageState extends State<BypassPage> {
     if (loading) {
       return BaseWidgets.shimmer();
     } else {
-      if (BypassList != null && BypassList!.isNotEmpty) {
+      if (bypassList != null && bypassList!.isNotEmpty) {
         return Padding(
           padding: EdgeInsets.all(Dimensions.size20),
           child: GridView.builder(
@@ -67,9 +67,9 @@ class BypassPageState extends State<BypassPage> {
               crossAxisSpacing: 16.0,
               mainAxisSpacing: 16.0,
             ),
-            itemCount: BypassList!.length,
+            itemCount: bypassList!.length,
             itemBuilder: (context, index) {
-              final item = BypassList![index];
+              final item = bypassList![index];
               return IntrinsicHeight(
                 child: InkWell(
                   onTap: () {},
@@ -126,7 +126,7 @@ class BypassPageState extends State<BypassPage> {
           ),
         );
       } else {
-        return BypassList == null
+        return bypassList == null
             ? BaseWidgets.loadingFail()
             : BaseWidgets.noData();
       }
