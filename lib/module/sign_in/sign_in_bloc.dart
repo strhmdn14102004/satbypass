@@ -1,3 +1,5 @@
+import "dart:convert";
+
 import "package:dio/dio.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:sasat_toko/api/api_manager.dart";
@@ -27,7 +29,18 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('auth_token', signInResponse.token);
 
+        Map<String, dynamic> userData = {
+          "id": signInResponse.user.id,
+          "username": signInResponse.user.username,
+          "fullName": signInResponse.user.fullName,
+          "address": signInResponse.user.address,
+          "phoneNumber": signInResponse.user.phoneNumber,
+        };
+
+        await prefs.setString('user_data', jsonEncode(userData));
+
         print("Token disimpan: ${signInResponse.token}");
+        print("User data disimpan: ${jsonEncode(userData)}");
 
         emit(SignInSubmitSuccess(data: signInResponse));
       } else {

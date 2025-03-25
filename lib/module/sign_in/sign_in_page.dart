@@ -74,7 +74,7 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
                     ),
                     SizedBox(height: Dimensions.size80),
                     Text(
-                      "welcome".tr(),
+                      "wellcome".tr(),
                       style: TextStyle(
                         color: AppColors.onSurface(),
                         fontSize: Dimensions.text24,

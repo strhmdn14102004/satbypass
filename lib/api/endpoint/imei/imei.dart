@@ -7,9 +7,9 @@ class ImeiModel {
 
   factory ImeiModel.fromJson(Map<String, dynamic> json) {
     return ImeiModel(
-      id: json["_id"],
-      name: json["name"],
-      price: json["price"],
+      id: json["_id"] ?? "",
+      name: json["name"] ?? "",
+      price: json["price"] ?? "",
     );
   }
 }

@@ -1,5 +1,7 @@
 // ignore_for_file: always_specify_types, use_build_context_synchronously
 
+import "dart:convert";
+
 import "package:base/base.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
@@ -14,6 +16,7 @@ import "package:sasat_toko/main_bloc.dart";
 import "package:sasat_toko/main_event.dart";
 import "package:sasat_toko/module/account/account_bloc.dart";
 import "package:sasat_toko/module/account/account_state.dart";
+import "package:shared_preferences/shared_preferences.dart";
 import "package:smooth_corner/smooth_corner.dart";
 
 class AccountPage extends StatefulWidget {
@@ -26,11 +29,28 @@ class AccountPage extends StatefulWidget {
 }
 
 class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
+  Map<String, dynamic>? user;
   @override
   void initState() {
     super.initState();
-
+    loadUserData();
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  void loadUserData() async {
+    user = await getUserData();
+    setState(() {});
+  }
+
+  Future<Map<String, dynamic>?> getUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString("user_data");
+
+    if (userJson != null) {
+      return jsonDecode(userJson);
+    }
+
+    return {"fullName": "User"};
   }
 
   @override
@@ -43,6 +63,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
           statusBarIconBrightness: AppColors.brightness(),
         ),
         child: Scaffold(
+          backgroundColor: AppColors.onPrimaryContainer(),
           body: SafeArea(
             child: Column(
               children: [
@@ -71,88 +92,99 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
   }
 
   Widget header() {
-    return Container(
-      margin: EdgeInsets.only(
-        bottom: Dimensions.size20,
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimensions.size20,
-        vertical: Dimensions.size30,
-      ),
-      decoration: ShapeDecoration(
-        shape: SmoothRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(Dimensions.size30),
-            bottomRight: Radius.circular(Dimensions.size30),
-          ),
-          smoothness: 1,
-        ),
-        color: AppColors.inverseSurface(),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return user == null
+        ? BaseWidgets.shimmer()
+        : Padding(
+            padding: EdgeInsets.all(Dimensions.size20),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Column(
                   children: [
-                    Text(
-                      Formats.spell("Welcome"),
-                      style: TextStyle(
-                        color: AppColors.surface(),
-                        fontSize: Dimensions.text16,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Formats.spell("wellcome".tr()),
+                                style: TextStyle(
+                                  color: AppColors.surface(),
+                                  fontSize: Dimensions.text16,
+                                ),
+                              ),
+                              Text(
+                                Formats.spell(
+                                  user!["fullName"].toString().toUpperCase(),
+                                ),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.surface(),
+                                  fontSize: Dimensions.text16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Image.network(
+                          Formats.spell(user!["fullName"]),
+                          width: Dimensions.size70,
+                          height: Dimensions.size70,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                            width: Dimensions.size50,
+                            height: Dimensions.size50,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.size50),
+                              color: AppColors.secondaryContainer(),
+                              border: Border.all(
+                                color: AppColors.onPrimaryContainer(),
+                              ),
+                            ),
+                            child: Text(
+                              Formats.initials(
+                                Formats.spell(user!["fullName"]),
+                              ),
+                              style: TextStyle(
+                                fontSize: Dimensions.text20,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.onPrimaryContainer(),
+                              ),
+                            ),
+                          ),
+                          frameBuilder:
+                              (context, child, frame, wasSynchronouslyLoaded) {
+                            return Container(
+                              width: Dimensions.size50,
+                              height: Dimensions.size50,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryContainer(),
+                                borderRadius:
+                                    BorderRadius.circular(Dimensions.size50),
+                                border: Border.all(
+                                  color: AppColors.onPrimaryContainer(),
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.circular(Dimensions.size50),
+                                child: child,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                    Text(
-                      Formats.spell("Satset"),
-                      style: TextStyle(
-                        color: AppColors.surface(),
-                        fontSize: Dimensions.text20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    SizedBox(height: Dimensions.size20),
                   ],
                 ),
-              ),
-              Image.network(
-                Formats.spell(
-                    "https://t4.ftcdn.net/jpg/00/88/53/89/360_F_88538986_5Bi4eJ667pocsO3BIlbN4fHKz8yUFSuA.jpg"),
-                width: Dimensions.size50,
-                height: Dimensions.size50,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: Dimensions.size50,
-                  height: Dimensions.size50,
-                  decoration: ShapeDecoration(
-                    color: AppColors.primary(),
-                    shape: SmoothRectangleBorder(
-                      borderRadius: BorderRadius.circular(Dimensions.size10),
-                      smoothness: 1,
-                      side: BorderSide(color: AppColors.onPrimary()),
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.person_rounded,
-                    size: Dimensions.size30,
-                    color: AppColors.onPrimary(),
-                  ),
-                ),
-                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                  return SmoothClipRRect(
-                    borderRadius: BorderRadius.circular(Dimensions.size10),
-                    smoothness: 1,
-                    side: BorderSide(color: AppColors.surface()),
-                    child: child,
-                  );
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: Dimensions.size20),
-        ],
-      ),
-    );
+              ],
+            ),
+          );
   }
 
   Widget body() {
@@ -182,6 +214,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
           Text(
             "setting".tr(),
             style: TextStyle(
+              color: AppColors.surface(),
               fontWeight: FontWeight.bold,
               fontSize: Dimensions.text16,
             ),
@@ -192,11 +225,11 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
           ListTile(
             onTap: () async {},
             shape: SmoothRectangleBorder(
-              borderRadius: BorderRadius.circular(Dimensions.size10),
+              borderRadius: BorderRadius.circular(Dimensions.size20),
               smoothness: 1,
               side: BorderSide(color: AppColors.outline()),
             ),
-            tileColor: AppColors.surfaceContainerLowest(),
+            tileColor: AppColors.surface(),
             leading: const Icon(Icons.key),
             title: Text(
               "change_pin".tr(),
@@ -233,7 +266,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
               );
             },
             shape: SmoothRectangleBorder(
-              borderRadius: BorderRadius.circular(Dimensions.size10),
+              borderRadius: BorderRadius.circular(Dimensions.size20),
               smoothness: 1,
               side: BorderSide(color: AppColors.outline()),
             ),
@@ -299,7 +332,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
               );
             },
             shape: SmoothRectangleBorder(
-              borderRadius: BorderRadius.circular(Dimensions.size10),
+              borderRadius: BorderRadius.circular(Dimensions.size20),
               smoothness: 1,
               side: BorderSide(color: AppColors.outline()),
             ),
@@ -342,6 +375,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
           Text(
             "help".tr(),
             style: TextStyle(
+              color: AppColors.surface(),
               fontWeight: FontWeight.bold,
               fontSize: Dimensions.text16,
             ),
@@ -351,7 +385,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
           ),
           ListTile(
             shape: SmoothRectangleBorder(
-              borderRadius: BorderRadius.circular(Dimensions.size10),
+              borderRadius: BorderRadius.circular(Dimensions.size20),
               smoothness: 1,
               side: BorderSide(color: AppColors.outline()),
             ),
@@ -381,6 +415,11 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
             height: Dimensions.size10,
           ),
           ListTile(
+              shape: SmoothRectangleBorder(
+              borderRadius: BorderRadius.circular(Dimensions.size20),
+              smoothness: 1,
+              side: BorderSide(color: AppColors.outline()),
+            ),
             onTap: () {
               BaseDialogs.confirmation(
                 title: "sign_out".tr(),

@@ -17,8 +17,12 @@ import "package:sasat_toko/main_bloc.dart";
 import "package:sasat_toko/main_state.dart";
 import "package:sasat_toko/module/account/account_bloc.dart";
 import "package:sasat_toko/module/account/account_page.dart";
+import "package:sasat_toko/module/bypass/bypass_bloc.dart";
+import "package:sasat_toko/module/bypass/bypass_page.dart";
 import "package:sasat_toko/module/home/home_bloc.dart";
 import "package:sasat_toko/module/home/home_page.dart";
+import "package:sasat_toko/module/imei/imei_bloc.dart";
+import "package:sasat_toko/module/imei/imei_page.dart";
 import "package:sasat_toko/module/root/root_bloc.dart";
 import "package:sasat_toko/module/root/root_page.dart";
 import "package:sasat_toko/module/sign_in/sign_in_bloc.dart";
@@ -46,12 +50,18 @@ final goRouter = GoRouter(
         return const SignUpPage();
       },
     ),
-    //  GoRoute(
-    //   path: "/imei-list",
-    //   builder: (context, state) {
-    //     return  ImeiPage();
-    //   },
-    // ),
+    GoRoute(
+      path: "/imei-list",
+      builder: (context, state) {
+        return const ImeiPage();
+      },
+    ),
+     GoRoute(
+      path: "/bypass-list",
+      builder: (context, state) {
+        return const BypassPage();
+      },
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return RootPage(statefulNavigationShell: navigationShell);
@@ -257,6 +267,8 @@ class AppState extends State<App> {
         BlocProvider(create: (BuildContext context) => RootBloc()),
         BlocProvider(create: (BuildContext context) => HomeBloc()),
         BlocProvider(create: (BuildContext context) => AccountBloc()),
+        BlocProvider(create: (BuildContext context) => ImeiBloc()),
+        BlocProvider(create: (BuildContext context) => BypassBloc()),
       ],
       child: MultiProvider(
         providers: [

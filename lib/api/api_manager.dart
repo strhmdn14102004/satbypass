@@ -1,5 +1,3 @@
-// ignore_for_file: cascade_invocations, always_specify_types, avoid_print, non_constant_identifier_names, depend_on_referenced_packages
-
 import "dart:convert";
 import "dart:typed_data";
 
@@ -10,6 +8,7 @@ import "package:sasat_toko/api/endpoint/sign_up/sign_up_request.dart";
 import "package:sasat_toko/api/interceptor/authorization_interceptor.dart";
 import "package:sasat_toko/constant/api_url.dart";
 import "package:sasat_toko/helper/formats.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class ApiManager {
   static bool PRIMARY = true;
@@ -99,6 +98,43 @@ class ApiManager {
 
     Response response = await dio.get(
       ApiUrl.ACCOUNT.path,
+    );
+
+    return response;
+  }
+
+  static Future<Response> getImei() async {
+    Dio dio = await getDio();
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("auth_token");
+    if (token == null || token.isEmpty) {
+      throw Exception("Token tidak ditemukan. Harap login kembali.");
+    }
+    Response response = await dio.get(
+      ApiUrl.IMEI.path,
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      ),
+    );
+
+    return response;
+  }
+   static Future<Response> getBypass() async {
+    Dio dio = await getDio();
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("auth_token");
+    if (token == null || token.isEmpty) {
+      throw Exception("Token tidak ditemukan. Harap login kembali.");
+    }
+    Response response = await dio.get(
+      ApiUrl.BYPASS.path,
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      ),
     );
 
     return response;

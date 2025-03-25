@@ -11,8 +11,7 @@
     SIGN_UP("register"),
     ACCOUNT("users"),
     BYPASS("bypass"),
-    IMEI("imei"),
-    TICKET("tickets");
+    IMEI("imei");
 
     final String path;
 
