@@ -281,35 +281,35 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
             label: "MDM_BYPASS".tr(),
             icon: Icons.manage_accounts_rounded,
             onTap: () async {
-              await context.push("/bypass-list");
+              await context.push("/bypass-mdm");
             },
           ),
           item(
             label: "BYPASS_A11".tr(),
             icon: Icons.phone_iphone_rounded,
             onTap: () async {
-              await context.push("/bypass-list");
+              await context.push("/bypass-a11");
             },
           ),
           item(
             label: "FMI_OFF_OPEN_MENU".tr(),
             icon: Icons.emoji_flags_outlined,
             onTap: () async {
-              await context.push("/bypass-list");
+              await context.push("/fmi-off-openmenu");
             },
           ),
            item(
             label: "MACBOOK_BYPASS".tr(),
             icon: Icons.laptop_mac_rounded,
             onTap: () async {
-              await context.push("/bypass-list");
+              await context.push("/macbook-bypass");
             },
           ),
             item(
             label: "UNLOCK_APPLE_WATCH".tr(),
             icon: Icons.watch_rounded,
             onTap: () async {
-              await context.push("/bypass-list");
+              await context.push("/unlock-apple-watch");
             },
           ),
         ],

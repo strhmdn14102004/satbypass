@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "140156137344",
+    "firebase_url": "https://satset-toko-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "satset-toko",
+    "storage_bucket": "satset-toko.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140156137344:android:d82aa26dd68d3342351b65",
+        "android_client_info": {
+          "package_name": "com.sasat.satko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140156137344-l9fiuslmq89i6dq0j4vl40bdqdilmcm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYph65Y8llU5XoKvnWjFqbisTQJpbvpQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140156137344-b9b7v07qif2bscjekemvnagag80d81e9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "140156137344-q4rdtp3mametqhngd73brn05bfimkhhe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sasat.satset"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

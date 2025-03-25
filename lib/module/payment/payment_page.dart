@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import "dart:convert";
 
 import "package:base/base.dart";
@@ -81,7 +83,9 @@ class _PaymentWebViewPageState extends State<PaymentWebViewPage> {
         ? BaseWidgets.shimmer()
         : Padding(
             padding: EdgeInsets.only(
-                left: Dimensions.size20, right: Dimensions.size20),
+              left: Dimensions.size20,
+              right: Dimensions.size20,
+            ),
             child: Stack(
               alignment: Alignment.center,
               children: [

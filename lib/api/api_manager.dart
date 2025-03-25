@@ -121,7 +121,8 @@ class ApiManager {
 
     return response;
   }
-   static Future<Response> getBypass() async {
+
+  static Future<Response> getBypass() async {
     Dio dio = await getDio();
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("auth_token");
@@ -139,6 +140,7 @@ class ApiManager {
 
     return response;
   }
+
   static Future<Response> getTransactionHistory() async {
     Dio dio = await getDio();
     final prefs = await SharedPreferences.getInstance();
@@ -151,6 +153,29 @@ class ApiManager {
       options: Options(
         headers: {
           "Authorization": "Bearer $token",
+        },
+      ),
+    );
+
+    return response;
+  }
+
+  static Future<Response> updateFcmToken(String fcmToken) async {
+    Dio dio = await getDio();
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("auth_token");
+
+    if (token == null || token.isEmpty) {
+      throw Exception("Token tidak ditemukan. Harap login kembali.");
+    }
+
+    Response response = await dio.post(
+      ApiUrl.FCM.path, // Adjust this to match your backend endpoint
+      data: {"fcmToken": fcmToken},
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
         },
       ),
     );

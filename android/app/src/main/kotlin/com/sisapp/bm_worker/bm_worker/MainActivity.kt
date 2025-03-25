@@ -1,4 +1,4 @@
-package com.sasat.sasat_toko
+package com.sasat.satko
 
 import io.flutter.embedding.android.FlutterActivity
 

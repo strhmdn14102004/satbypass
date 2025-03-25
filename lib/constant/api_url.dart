@@ -12,6 +12,7 @@
       ACCOUNT("users"),
       BYPASS("bypass"),
       HISTORY("transactions"),
+      FCM("update-fcm"),
       IMEI("imei");
 
       final String path;

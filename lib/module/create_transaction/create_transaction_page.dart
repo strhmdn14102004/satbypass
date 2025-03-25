@@ -255,7 +255,7 @@ class _TransactionPageState extends State<TransactionPage> {
           SizedBox(height: Dimensions.size10),
           _detailRow(
             "price".tr(),
-            NumberFormat.currency(locale: 'id', symbol: 'Rp ')
+            NumberFormat.currency(locale: "id", symbol: "Rp ")
                 .format(widget.price),
           ),
         ],
@@ -277,9 +277,8 @@ class _TransactionPageState extends State<TransactionPage> {
                     .read<TransactionBloc>()
                     .add(CreateTransactionEvent(transaction));
               },
-        child: isLoading
-            ? CircularProgressIndicator()
-            : Text("Create_transaction".tr()),
+        child:
+            isLoading ? BaseWidgets.shimmer() : Text("Create_transaction".tr()),
       ),
     );
   }
