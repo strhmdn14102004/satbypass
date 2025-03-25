@@ -27,6 +27,7 @@ class HistoryTransactionItem {
   String status;
   DateTime createdAt;
   int v;
+  String? paymentUrl;
 
   HistoryTransactionItem({
     required this.id,
@@ -38,19 +39,23 @@ class HistoryTransactionItem {
     required this.status,
     required this.createdAt,
     required this.v,
+    this.paymentUrl,
   });
 
   factory HistoryTransactionItem.fromJson(Map<String, dynamic> json) =>
       HistoryTransactionItem(
-        id: json["_id"],
-        userId: json["userId"],
-        itemType: json["itemType"],
-        itemId: json["itemId"],
-        itemName: json["itemName"],
-        price: json["price"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        v: json["__v"],
+        id: json["_id"] ?? "",
+        userId: json["userId"] ?? "",
+        itemType: json["itemType"] ?? "",
+        itemId: json["itemId"] ?? "",
+        itemName: json["itemName"] ?? "",
+        price: json["price"] ?? 0,
+        status: json["status"] ?? "unknown",
+        createdAt: json["createdAt"] != null
+            ? DateTime.parse(json["createdAt"])
+            : DateTime.now(),
+        v: json["__v"] ?? 0,
+        paymentUrl: json["paymentUrl"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -63,5 +68,6 @@ class HistoryTransactionItem {
         "status": status,
         "createdAt": createdAt.toIso8601String(),
         "__v": v,
+        "paymentUrl": paymentUrl,
       };
 }

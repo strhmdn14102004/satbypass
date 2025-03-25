@@ -11,14 +11,15 @@ class HistoryTransactionBloc
       emit(HistoryTransactionLoading());
       try {
         final response = await ApiManager.getTransactionHistory();
-        if (response.statusCode == 200) {
+
+        if (response.statusCode == 200 && response.data != null) {
           final data = HistorytransactionResponse.fromJson(response.data);
           emit(HistoryTransactionLoaded(transactions: data.data));
         } else {
           emit(HistoryTransactionError("Gagal mengambil data transaksi"));
         }
       } catch (e) {
-        emit(HistoryTransactionError("Terjadi kesalahan: $e"));
+        emit(HistoryTransactionError("Terjadi kesalahan: ${e.toString()}"));
       }
     });
   }

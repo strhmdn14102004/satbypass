@@ -9,6 +9,7 @@ import "package:sasat_toko/helper/formats.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_bloc.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_event.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_state.dart";
+import "package:sasat_toko/module/payment/payment_page.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:smooth_corner/smooth_corner.dart";
 
@@ -65,7 +66,9 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
           ),
           child: RefreshIndicator(
             onRefresh: () async {
-              context.read<HistoryTransactionBloc>().add(FetchHistoryTransaction());
+              context
+                  .read<HistoryTransactionBloc>()
+                  .add(FetchHistoryTransaction());
             },
             child: Scaffold(
               backgroundColor: AppColors.onPrimaryContainer(),
@@ -239,77 +242,108 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
                     statusColor = Colors.grey;
                 }
 
-                return Container(
-                  margin: EdgeInsets.only(bottom: Dimensions.size10),
-                  padding: EdgeInsets.all(Dimensions.size20),
-                  decoration: ShapeDecoration(
-                    color: AppColors.surface(),
-                    shape: SmoothRectangleBorder(
-                      borderRadius: BorderRadius.circular(Dimensions.size20),
+                return Padding(
+                  padding: EdgeInsets.only(bottom: Dimensions.size10),
+                  child: InkWell(
+                    customBorder: SmoothRectangleBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.size15),
+                      smoothness: 1,
                     ),
-                    shadows: [
-                      BoxShadow(
-                        color: AppColors.shadow(),
-                        blurRadius: 8,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(iconData, color: AppColors.primary(), size: 30),
-                      SizedBox(width: Dimensions.size20),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  transaction.itemName,
-                                  style: TextStyle(
-                                    color: AppColors.onSurface(),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: Dimensions.text16,
-                                  ),
-                                ),
-                                Text(
-                                  formattedPrice,
-                                  style: TextStyle(
-                                    fontSize: Dimensions.text14,
-                                    color: AppColors.onSurface(),
-                                  ),
-                                ),
-                              ],
+                    onTap: () async {
+                      if (transaction.paymentUrl != null &&
+                          transaction.paymentUrl!.isNotEmpty) {
+                        bool? paymentSuccess = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentWebViewPage(
+                              paymentUrl: transaction.paymentUrl.toString(),
                             ),
-                            SizedBox(height: Dimensions.size5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  formattedDate,
-                                  style: TextStyle(
-                                    fontSize: Dimensions.text12,
-                                    color: AppColors.onSurface(),
-                                  ),
-                                ),
-                                Text(
-                                  "Status : ${transaction.status}",
-                                  style: TextStyle(
-                                    fontSize: Dimensions.text14,
-                                    color: statusColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: Dimensions.size5),
-                          ],
+                          ),
+                        );
+
+                        if (paymentSuccess == true) {
+                          context
+                              .read<HistoryTransactionBloc>()
+                              .add(FetchHistoryTransaction());
+                        }
+                      }
+                    },
+                    child: Ink(
+                      padding: EdgeInsets.all(Dimensions.size20),
+                      decoration: ShapeDecoration(
+                        color: AppColors.surface(),
+                        shape: SmoothRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.size20),
                         ),
+                        shadows: [
+                          BoxShadow(
+                            color: AppColors.shadow(),
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
                       ),
-                    ],
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(iconData, color: AppColors.primary(), size: 30),
+                          SizedBox(width: Dimensions.size20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "${transaction.itemType} ${transaction.itemName}",
+                                      style: TextStyle(
+                                        color: AppColors.onSurface(),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: Dimensions.text16,
+                                      ),
+                                    ),
+                                    Text(
+                                      formattedPrice,
+                                      style: TextStyle(
+                                        fontSize: Dimensions.text14,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.onSurface(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: Dimensions.size5),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      formattedDate,
+                                      style: TextStyle(
+                                        fontSize: Dimensions.text12,
+                                        color: AppColors.onSurface(),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Status : ${transaction.status}",
+                                      style: TextStyle(
+                                        fontSize: Dimensions.text14,
+                                        color: statusColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: Dimensions.size5),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },

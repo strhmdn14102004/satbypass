@@ -19,6 +19,8 @@ import "package:sasat_toko/module/account/account_bloc.dart";
 import "package:sasat_toko/module/account/account_page.dart";
 import "package:sasat_toko/module/bypass/bypass_bloc.dart";
 import "package:sasat_toko/module/bypass/bypass_page.dart";
+import "package:sasat_toko/module/create_transaction/create_transaction_bloc.dart";
+import "package:sasat_toko/module/create_transaction/create_transaction_page.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_bloc.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_page.dart";
 import "package:sasat_toko/module/home/home_bloc.dart";
@@ -59,6 +61,24 @@ final goRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: "/transaction/:itemId",
+      builder: (context, state) {
+        final itemId = state.pathParameters["itemId"]!;
+        final extra = state.extra as Map<String, dynamic>?;
+
+        final name = extra?["name"] ?? "Nama Tidak Tersedia";
+        final price = (extra?["price"] is int)
+            ? (extra?["price"] as int).toDouble()
+            : (extra?["price"] ?? 0.0);
+
+        return TransactionPage(
+          itemId: itemId,
+          name: name,
+          price: price,
+        );
+      },
+    ),
+    GoRoute(
       path: "/bypass-list",
       builder: (context, state) {
         return const BypassPage();
@@ -79,7 +99,7 @@ final goRouter = GoRouter(
             ),
           ],
         ),
-         StatefulShellBranch(
+        StatefulShellBranch(
           routes: [
             GoRoute(
               path: "/history_transaction",
@@ -279,9 +299,10 @@ class AppState extends State<App> {
         BlocProvider(create: (BuildContext context) => RootBloc()),
         BlocProvider(create: (BuildContext context) => HomeBloc()),
         BlocProvider(create: (BuildContext context) => AccountBloc()),
-        BlocProvider(create: (BuildContext context) => HistoryTransactionBloc()),
+        BlocProvider(create: (BuildContext context) => HistoryTransactionBloc(),),
         BlocProvider(create: (BuildContext context) => ImeiBloc()),
         BlocProvider(create: (BuildContext context) => BypassBloc()),
+        BlocProvider(create: (BuildContext context) => TransactionBloc()),
       ],
       child: MultiProvider(
         providers: [

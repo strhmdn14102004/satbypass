@@ -2,6 +2,7 @@ import "package:base/base.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:go_router/go_router.dart";
 import "package:sasat_toko/api/endpoint/imei/imei.dart";
 import "package:sasat_toko/module/imei/imei_bloc.dart";
 import "package:sasat_toko/module/imei/imei_event.dart";
@@ -44,6 +45,7 @@ class ImeiPageState extends State<ImeiPage> {
         }
       },
       child: Scaffold(
+        backgroundColor: AppColors.onPrimaryContainer(),
         appBar: AppBar(title: Text("imei_price".tr())),
         body: body(),
       ),
@@ -72,7 +74,15 @@ class ImeiPageState extends State<ImeiPage> {
               final item = imeiList![index];
               return IntrinsicHeight(
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    context.push(
+                      "/transaction/${item.id}",
+                      extra: {
+                        "name": item.name,
+                        "price": item.price,
+                      },
+                    );
+                  },
                   customBorder: SmoothRectangleBorder(
                     borderRadius: BorderRadius.circular(Dimensions.size15),
                     smoothness: 1,
