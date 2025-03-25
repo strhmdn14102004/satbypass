@@ -12,11 +12,12 @@
   "phone_number": "Nomor Telepon",
   "sign_up": "Daftar",
   "change_language": "Ubah bahasa",
-  "change_pin": "Ubah PIN",
+  "change_password": "Ubah Password",
   "theme_mode": "Mode tema",
   "sign_out": "Keluar",
   "home": "Beranda",
   "account": "Akun",
+  "about_account": "Tentang Akun",
   "bypass_price": "Harga Bypass",
   "imei_price": "Harga IMEI",
   "are_you_sure_want_to_sign_out": "Apakah Anda yakin ingin keluar?",
@@ -35,7 +36,7 @@
   "FMI_OFF_OPEN_MENU":"FMI OFF",
   "MACBOOK_BYPASS":"Bypass MacBook",
   "UNLOCK_APPLE_WATCH":"Buka Kunci Apple Watch",
-  "history_transaction": "histori transaksi",
+  "history_transaction": "Histori Transaksi",
   "yes": "Iya"
 
 }

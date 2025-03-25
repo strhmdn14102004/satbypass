@@ -108,7 +108,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                Formats.spell("wellcome".tr()),
+                                Formats.spell("about_account".tr()),
                                 style: TextStyle(
                                   color: AppColors.surface(),
                                   fontSize: Dimensions.text16,
@@ -232,7 +232,7 @@ class AccountPageState extends State<AccountPage> with WidgetsBindingObserver {
             tileColor: AppColors.surface(),
             leading: const Icon(Icons.key),
             title: Text(
-              "change_pin".tr(),
+              "change_password".tr(),
             ),
             trailing: const Icon(Icons.chevron_right),
           ),

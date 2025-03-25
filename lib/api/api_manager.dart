@@ -139,4 +139,22 @@ class ApiManager {
 
     return response;
   }
+  static Future<Response> getTransactionHistory() async {
+    Dio dio = await getDio();
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("auth_token");
+    if (token == null || token.isEmpty) {
+      throw Exception("Token tidak ditemukan. Harap login kembali.");
+    }
+    Response response = await dio.get(
+      ApiUrl.HISTORY.path,
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      ),
+    );
+
+    return response;
+  }
 }

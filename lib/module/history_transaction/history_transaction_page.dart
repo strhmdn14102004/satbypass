@@ -1,5 +1,3 @@
-// ignore_for_file: always_specify_types, use_build_context_synchronously
-
 import "dart:convert";
 
 import "package:base/base.dart";
@@ -9,13 +7,13 @@ import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:sasat_toko/helper/formats.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_bloc.dart";
+import "package:sasat_toko/module/history_transaction/history_transaction_event.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_state.dart";
 import "package:shared_preferences/shared_preferences.dart";
+import "package:smooth_corner/smooth_corner.dart";
 
 class HistoryTransactionPage extends StatefulWidget {
-  const HistoryTransactionPage({
-    super.key,
-  });
+  const HistoryTransactionPage({super.key});
 
   @override
   HistoryTransactionPageState createState() => HistoryTransactionPageState();
@@ -24,11 +22,13 @@ class HistoryTransactionPage extends StatefulWidget {
 class HistoryTransactionPageState extends State<HistoryTransactionPage>
     with WidgetsBindingObserver {
   Map<String, dynamic>? user;
+
   @override
   void initState() {
     super.initState();
     loadUserData();
     WidgetsBinding.instance.addObserver(this);
+    context.read<HistoryTransactionBloc>().add(FetchHistoryTransaction());
   }
 
   void loadUserData() async {
@@ -49,39 +49,50 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HistoryTransactionBloc, HistoryTransactionState>(
-      listener: (context, state) async {},
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor: AppColors.inverseSurface(),
-          statusBarIconBrightness: AppColors.brightness(),
-        ),
-        child: Scaffold(
-          backgroundColor: AppColors.onPrimaryContainer(),
-          body: SafeArea(
-            child: Column(
-              children: [
-                header(),
-                body(),
-              ],
+    return BlocConsumer<HistoryTransactionBloc, HistoryTransactionState>(
+      listener: (context, state) {
+        if (state is HistoryTransactionError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }
+      },
+      builder: (context, state) {
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: AppColors.inverseSurface(),
+            statusBarIconBrightness: AppColors.brightness(),
+          ),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              context.read<HistoryTransactionBloc>().add(FetchHistoryTransaction());
+            },
+            child: Scaffold(
+              backgroundColor: AppColors.onPrimaryContainer(),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    header(),
+                    Expanded(child: buildTransactionList(state)),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   @override
   void dispose() {
     super.dispose();
-
     WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
   void didChangePlatformBrightness() {
     super.didChangePlatformBrightness();
-
     setState(() {});
   }
 
@@ -102,7 +113,7 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                Formats.spell("wellcome".tr()),
+                                Formats.spell("history_transaction".tr()),
                                 style: TextStyle(
                                   color: AppColors.surface(),
                                   fontSize: Dimensions.text16,
@@ -181,42 +192,134 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
           );
   }
 
-  Widget body() {
-    return Expanded(
-      child: ListView(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          setting(),
-          SizedBox(
-            height: Dimensions.size20,
-          ),
-        ],
-      ),
-    );
-  }
+  Widget buildTransactionList(HistoryTransactionState state) {
+    if (state is HistoryTransactionLoading) {
+      return Center(child: BaseWidgets.shimmer());
+    }
 
-  Widget setting() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimensions.size20,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "buy_history".tr(),
-            style: TextStyle(
-              color: AppColors.surface(),
-              fontWeight: FontWeight.bold,
-              fontSize: Dimensions.text16,
-            ),
-          ),
-          SizedBox(
-            height: Dimensions.size10,
-          ),
-        ],
-      ),
-    );
+    if (state is HistoryTransactionLoaded) {
+      return state.transactions.isEmpty
+          ? Center(child: BaseWidgets.noData())
+          : ListView.builder(
+              padding: EdgeInsets.all(Dimensions.size20),
+              itemCount: state.transactions.length,
+              itemBuilder: (context, index) {
+                final transaction = state.transactions[index];
+
+                IconData iconData = Icons.shopping_cart;
+                if (transaction.itemType == "imei") {
+                  iconData = Icons.phone_android_rounded;
+                } else if (transaction.itemType == "bypass") {
+                  iconData = Icons.security_rounded;
+                }
+
+                String formattedPrice = NumberFormat.currency(
+                  locale: "id_ID",
+                  symbol: "Rp ",
+                  decimalDigits: 0,
+                ).format(transaction.price);
+
+                String formattedDate =
+                    DateFormat("dd MMMM yyyy HH.mm", "id_ID").format(
+                  DateTime.parse(transaction.createdAt.toString()).toLocal(),
+                );
+
+                Color statusColor;
+                switch (transaction.status.toLowerCase()) {
+                  case "sukses":
+                    statusColor = Colors.green;
+                    break;
+                  case "pending":
+                    statusColor = Colors.orange;
+                    break;
+                  case "gagal":
+                    statusColor = AppColors.error();
+                    break;
+                  default:
+                    statusColor = Colors.grey;
+                }
+
+                return Container(
+                  margin: EdgeInsets.only(bottom: Dimensions.size10),
+                  padding: EdgeInsets.all(Dimensions.size20),
+                  decoration: ShapeDecoration(
+                    color: AppColors.surface(),
+                    shape: SmoothRectangleBorder(
+                      borderRadius: BorderRadius.circular(Dimensions.size20),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: AppColors.shadow(),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(iconData, color: AppColors.primary(), size: 30),
+                      SizedBox(width: Dimensions.size20),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  transaction.itemName,
+                                  style: TextStyle(
+                                    color: AppColors.onSurface(),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Dimensions.text16,
+                                  ),
+                                ),
+                                Text(
+                                  formattedPrice,
+                                  style: TextStyle(
+                                    fontSize: Dimensions.text14,
+                                    color: AppColors.onSurface(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: Dimensions.size5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  formattedDate,
+                                  style: TextStyle(
+                                    fontSize: Dimensions.text12,
+                                    color: AppColors.onSurface(),
+                                  ),
+                                ),
+                                Text(
+                                  "Status : ${transaction.status}",
+                                  style: TextStyle(
+                                    fontSize: Dimensions.text14,
+                                    color: statusColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: Dimensions.size5),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+    }
+
+    if (state is HistoryTransactionError) {
+      return Center(child: BaseWidgets.loadingFail());
+    }
+
+    return Center(child: Text("Mulai dengan menarik transaksi..."));
   }
 }

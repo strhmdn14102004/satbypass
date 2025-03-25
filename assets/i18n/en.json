@@ -12,11 +12,12 @@
   "address": "Address",
   "phone_number": "Phone Number",
   "change_language": "Change language",
-  "change_pin": "Change PIN",
+  "change_password": "Change Password",
   "theme_mode": "Theme mode",
   "sign_out": "Sign out",
   "home": "Home",
   "account": "Account",
+  "about_account": "About Account",
   "bypass_price": "Bypass Price",
   "imei_price": "IMEI Price",
   "are_you_sure_want_to_sign_out": "Are you sure want to sign out?",
@@ -35,7 +36,7 @@
   "FMI_OFF_OPEN_MENU":"FMI OFF",
   "MACBOOK_BYPASS":"Bypass MacBook",
   "UNLOCK_APPLE_WATCH":"Unlock Apple Watch",
-  "history_transaction": "history transaction",
+  "history_transaction": "History Transaction",
   "yes": "Yes"
 
 }
