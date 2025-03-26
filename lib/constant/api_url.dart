@@ -13,7 +13,7 @@
       BYPASS("bypass"),
       HISTORY("transactions"),
       DETAIL_TRANSAKSI("transactions/"),
-      FCM("update-fcm"),
+      FCM("notifications/update-fcm"),
       IMEI("imei");
 
       final String path;
