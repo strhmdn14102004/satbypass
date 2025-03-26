@@ -12,7 +12,6 @@ import "package:intl/date_symbol_data_local.dart";
 import "package:loader_overlay/loader_overlay.dart";
 import "package:lottie/lottie.dart";
 import "package:provider/provider.dart";
-import "package:sasat_toko/firebase_option.dart";
 import "package:sasat_toko/helper/firebase.dart";
 import "package:sasat_toko/helper/generals.dart";
 import "package:sasat_toko/helper/timers.dart";
@@ -156,10 +155,8 @@ Future<bool> isAuthenticated() async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await FirebaseNotification.initialize();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   HttpOverrides.global = BaseHttpOverrides();
 

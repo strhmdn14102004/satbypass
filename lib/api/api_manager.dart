@@ -161,25 +161,40 @@ class ApiManager {
   }
 
   static Future<Response> updateFcmToken(String fcmToken) async {
-    Dio dio = await getDio();
+    final dio = await getDio();
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("auth_token");
 
-    if (token == null || token.isEmpty) {
-      throw Exception("Token tidak ditemukan. Harap login kembali.");
+    if (token == null) {
+      throw Exception("Authentication token not found");
     }
 
-    Response response = await dio.post(
-      ApiUrl.FCM.path, // Adjust this to match your backend endpoint
-      data: {"fcmToken": fcmToken},
-      options: Options(
-        headers: {
-          "Authorization": "Bearer $token",
-          "Content-Type": "application/json",
-        },
-      ),
-    );
+    try {
+      final response = await dio.post(
+        ApiUrl.FCM.path,
+        data: jsonEncode({"fcm_token": fcmToken}),
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+            "Content-Type": "application/json",
+          },
+        ),
+      );
 
-    return response;
+      if (response.statusCode != 200) {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+        );
+      }
+
+      return response;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(
+            e.response?.data['message'] ?? "Failed to update FCM token");
+      }
+      rethrow;
+    }
   }
 }
