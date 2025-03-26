@@ -204,7 +204,42 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
 
     if (state is HistoryTransactionLoaded) {
       return state.transactions.isEmpty
-          ? Center(child: BaseWidgets.noData())
+          ? Center(
+              child: Column(
+                children: [
+                  BaseWidgets.noData(),
+                  SizedBox(
+                    height: Dimensions.size10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 120,),
+                    child: ListTile(
+                      onTap: () async {
+                        context
+                            .read<HistoryTransactionBloc>()
+                            .add(FetchHistoryTransaction());
+                      },
+                      shape: SmoothRectangleBorder(
+                        borderRadius: BorderRadius.circular(Dimensions.size20),
+                        smoothness: 1,
+                        side: BorderSide(color: AppColors.outline()),
+                      ),
+                      tileColor: AppColors.surfaceContainerHighest(),
+                      leading: const Icon(Icons.refresh_rounded),
+                      title: Text(
+                        "refresh".tr(),
+                        style: TextStyle(
+                          color: AppColors.onSurface(),
+                          fontWeight: FontWeight.bold,
+                          fontSize: Dimensions.text18,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
           : ListView.builder(
               padding: EdgeInsets.all(Dimensions.size20),
               itemCount: state.transactions.length,

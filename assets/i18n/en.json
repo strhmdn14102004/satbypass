@@ -46,6 +46,8 @@
   "status": "Status",
   "no_data_hint": "The data may not exist or please do a data search using different search words and periods.",
   "no_data": "No data",
+  "refresh":"Refresh",
+  "transaksi_done":"Transaction Has Been Successfully Made, Please check your transaction history, in the transaction history menu",
   "yes": "Yes"
 
 }

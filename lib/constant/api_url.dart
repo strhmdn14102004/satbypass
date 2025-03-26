@@ -7,11 +7,12 @@
     const String SECONDARY_BASE = "https://satsat.up.railway.app/api/";
 
     enum ApiUrl {
-      SIGN_IN("login"),
-      SIGN_UP("register"),
+      SIGN_IN("auth/login"),
+      SIGN_UP("auth/register"),
       ACCOUNT("users"),
       BYPASS("bypass"),
       HISTORY("transactions"),
+      DETAIL_TRANSAKSI("transactions/")
       FCM("update-fcm"),
       IMEI("imei");
 

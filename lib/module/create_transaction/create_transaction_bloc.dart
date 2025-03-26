@@ -3,6 +3,7 @@
 import "package:base/base.dart";
 import "package:bloc/bloc.dart";
 import "package:dio/dio.dart";
+import "package:easy_localization/easy_localization.dart";
 import "package:sasat_toko/api/api_manager.dart";
 import "package:sasat_toko/constant/api_url.dart";
 import "package:sasat_toko/module/create_transaction/create_transaction_event.dart";
@@ -41,19 +42,20 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         ),
       );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-  final paymentUrl = response.data["paymentUrl"] ?? "";
-  
-  emit(TransactionSuccess("Transaksi berhasil dibuat.", paymentUrl));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final paymentUrl = response.data["paymentUrl"] ?? "";
 
-  BaseOverlays.success(
-    message: "Transaksi Berhasil dilakukan, cek riwayat transaksi",
-  );
+        emit(TransactionSuccess("Transaksi berhasil dibuat.", paymentUrl));
 
+        BaseOverlays.success(
+          message: "transaksi_done".tr(),
+        );
       } else {
-        emit(TransactionFailure(
-          "Gagal membuat transaksi: ${response.data['message'] ?? 'Kesalahan tidak diketahui.'}",
-        ),);
+        emit(
+          TransactionFailure(
+            "Gagal membuat transaksi: ${response.data['message'] ?? 'Kesalahan tidak diketahui.'}",
+          ),
+        );
         BaseOverlays.error(message: "{$response");
       }
     } on DioException catch (e) {
