@@ -59,15 +59,11 @@ class _PaymentWebViewPageState extends State<PaymentWebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.onPrimaryContainer(),
+      // backgroundColor: AppColors.onPrimaryContainer(),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            header(),
-            SizedBox(height: Dimensions.size20),
-            Expanded(
-              child: WebViewWidget(controller: _controller),
-            ),
+            WebViewWidget(controller: _controller),
             if (isLoading)
               Center(
                 child: BaseWidgets.shimmer(),
@@ -76,6 +72,7 @@ class _PaymentWebViewPageState extends State<PaymentWebViewPage> {
         ),
       ),
     );
+    
   }
 
   Widget header() {
