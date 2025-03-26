@@ -7,7 +7,7 @@
 
     <application
         android:usesCleartextTraffic="true"
-        android:label="sasat toko"
+        android:label="Sattech"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

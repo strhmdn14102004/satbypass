@@ -44,6 +44,8 @@
   "price": "Harga",
   "Pembayaran":"Pembayaran",
   "status": "Status",
+  "no_data_hint": "Data mungkin saja memang tidak ada atau silahkan lakukan pencarian data menggunakan kata pencarian dan periode yang berbeda",
+  "no_data": "Tidak ada data",
   "yes": "Iya"
 
 }

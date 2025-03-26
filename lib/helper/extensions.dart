@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_collection_literals, cascade_invocations
+// ignore_for_file: prefer_collection_literals, cascade_invocations, depend_on_referenced_packages
 
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
