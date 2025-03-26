@@ -75,7 +75,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         );
       }
     } catch (e) {
-      if (kDebugMode) print("❌ Error updating FCM token: $e");
+      if (kDebugMode) {
+        print("❌ Error updating FCM token: $e");
+      }
     }
   }
 }

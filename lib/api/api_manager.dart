@@ -192,7 +192,8 @@ class ApiManager {
     } on DioException catch (e) {
       if (e.response != null) {
         throw Exception(
-            e.response?.data['message'] ?? "Failed to update FCM token");
+          e.response?.data["message"] ?? "Failed to update FCM token",
+        );
       }
       rethrow;
     }

@@ -48,7 +48,9 @@ class SignInPageState extends State<SignInPage> with WidgetsBindingObserver {
           context.loaderOverlay.show();
         } else if (state is SignInSubmitSuccess) {
           await Future.delayed(const Duration(milliseconds: 500));
-          if (mounted) context.go("/");
+          if (mounted) {
+            context.go("/");
+          }
         } else if (state is SignInSubmitFailed) {
           context.loaderOverlay.hide();
           BaseOverlays.error(message: state.errorMessage);
