@@ -12,7 +12,7 @@
       ACCOUNT("users"),
       BYPASS("bypass"),
       HISTORY("transactions"),
-      DETAIL_TRANSAKSI("transactions/")
+      DETAIL_TRANSAKSI("transactions/"),
       FCM("update-fcm"),
       IMEI("imei");
 
