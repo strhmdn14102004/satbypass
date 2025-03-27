@@ -48,6 +48,22 @@
   "no_data": "Tidak ada data",
   "refresh":"Muat ulang",
   "transaksi_done":"Transaksi Telah Berhasil dilakukan,Silahkan cek riwayat transaksimu, dimenu histori transaksi",
+  "Transaction_information":"Informasi Transaksi",
+  "ID_transaction":"ID Transaksi",
+  "Customer":"Kustomer",
+  "Number_phone":"No Handphone",
+  "Product":"Produk",
+  "Price":"Harga",
+  "Time":"Waktu",
+  "Status":"Status",
+  "detail":"Rincian",
+  "Item_type":"Tipe Item",
+  "Item_id":"Id Item",
+  "Item_name":"Nama Item",
+  "Payment_status":"Status Pembayaran",
+  "Created_At":"Dibuat Pada",
+  "Detail_transaction":"Detail Transaksi",
+  "View_payment":"Lihat Pembayaran",
   "yes": "Iya"
 
 }

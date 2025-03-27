@@ -23,13 +23,22 @@ class ImeiPage extends StatefulWidget {
 class ImeiPageState extends State<ImeiPage> {
   bool loading = false;
   List<ImeiModel>? imeiList;
+  List<ImeiModel>? filteredImeiList; // For search results
   Map<String, dynamic>? user;
+  bool isSearching = false;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     loadUserData();
     refresh();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   void loadUserData() async {
@@ -48,6 +57,30 @@ class ImeiPageState extends State<ImeiPage> {
     return {"fullName": "User"};
   }
 
+  void _filterImeiList(String query) {
+    if (imeiList == null) {
+      return;
+    }
+
+    setState(() {
+      filteredImeiList = imeiList!
+          .where(
+            (imei) => imei.name.toLowerCase().contains(query.toLowerCase()),
+          )
+          .toList();
+    });
+  }
+
+  void _toggleSearch() {
+    setState(() {
+      isSearching = !isSearching;
+      if (!isSearching) {
+        _searchController.clear();
+        filteredImeiList = null;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ImeiBloc, ImeiState>(
@@ -56,6 +89,7 @@ class ImeiPageState extends State<ImeiPage> {
           setState(() {
             loading = true;
             imeiList = null;
+            filteredImeiList = null;
           });
         } else if (state is ImeiLoadSuccess) {
           imeiList = state.imeiList;
@@ -76,7 +110,7 @@ class ImeiPageState extends State<ImeiPage> {
               ),
               child: Column(
                 children: [
-                  header(),
+                  isSearching ? searchHeader() : header(),
                   body(),
                 ],
               ),
@@ -143,6 +177,17 @@ class ImeiPageState extends State<ImeiPage> {
                             ],
                           ),
                         ),
+                        // Add search icon button here
+                        IconButton(
+                          icon: Icon(
+                            Icons.search_rounded,
+                            color: AppColors.surface(),
+                            size: Dimensions.size30,
+                          ),
+                          onPressed: _toggleSearch,
+                        ),
+                        SizedBox(width: Dimensions.size10),
+                        // Profile image remains the same
                         Image.network(
                           Formats.spell(user!["fullName"]),
                           width: Dimensions.size70,
@@ -203,26 +248,89 @@ class ImeiPageState extends State<ImeiPage> {
           );
   }
 
+  Widget searchHeader() {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: Dimensions.size20,
+        right: Dimensions.size20,
+        top: Dimensions.size10,
+      ),
+      child: Row(
+        children: [
+          IconButton(
+            icon: Icon(
+              Icons.turn_left_rounded,
+              color: AppColors.surface(),
+              size: Dimensions.size30,
+            ),
+            onPressed: _toggleSearch,
+          ),
+          Expanded(
+            child: Container(
+              height: Dimensions.size50,
+              decoration: BoxDecoration(
+                color: AppColors.surfaceContainerLowest(),
+                borderRadius: BorderRadius.circular(Dimensions.size15),
+              ),
+              child: Center(
+                // Tambahkan widget Center di sini
+                child: TextField(
+                  controller: _searchController,
+                  autofocus: true,
+                  textAlignVertical: TextAlignVertical.center, // Tambahkan ini
+                  decoration: InputDecoration(
+                    hintText: "Search IMEI...",
+                    hintStyle: TextStyle(color: AppColors.onSurfaceVariant()),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.size15,
+                      vertical: Dimensions.size10, // Sesuaikan padding vertikal
+                    ),
+                    isDense:
+                        true, // Tambahkan ini untuk padding yang lebih presisi
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: AppColors.onSurface(),
+                      ),
+                      onPressed: () {
+                        _searchController.clear();
+                        _filterImeiList("");
+                      },
+                    ),
+                  ),
+                  style: TextStyle(color: AppColors.onSurface()),
+                  onChanged: _filterImeiList,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: Dimensions.size10),
+        ],
+      ),
+    );
+  }
+
   Widget body() {
     if (loading) {
       return BaseWidgets.shimmer();
     } else {
-      if (imeiList != null && imeiList!.isNotEmpty) {
+      final displayList = filteredImeiList ?? imeiList;
+
+      if (displayList != null && displayList.isNotEmpty) {
         return Padding(
           padding: EdgeInsets.all(Dimensions.size20),
           child: SizedBox(
-            // Ensure GridView has height constraints
-            height: MediaQuery.of(context).size.height *
-                0.7, // Set height dynamically
+            height: MediaQuery.of(context).size.height * 0.7,
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
               ),
-              itemCount: imeiList!.length,
+              itemCount: displayList.length,
               itemBuilder: (context, index) {
-                final item = imeiList![index];
+                final item = displayList[index];
                 return InkWell(
                   onTap: () async {
                     context.push(
@@ -286,7 +394,7 @@ class ImeiPageState extends State<ImeiPage> {
           ),
         );
       } else {
-        return imeiList == null
+        return displayList == null
             ? BaseWidgets.loadingFail()
             : BaseWidgets.noData();
       }

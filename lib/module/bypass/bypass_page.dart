@@ -23,13 +23,22 @@ class BypassPage extends StatefulWidget {
 class BypassPageState extends State<BypassPage> {
   bool loading = false;
   List<BypassModel>? bypassList;
+  List<BypassModel>? filteredBypassList; // For search results
   Map<String, dynamic>? user;
+  bool isSearching = false;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     loadUserData();
     refresh();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   void loadUserData() async {
@@ -48,6 +57,30 @@ class BypassPageState extends State<BypassPage> {
     return {"fullName": "User"};
   }
 
+  void _filterBypassList(String query) {
+    if (bypassList == null) {
+      return;
+    }
+
+    setState(() {
+      filteredBypassList = bypassList!
+          .where(
+            (bypass) => bypass.name.toLowerCase().contains(query.toLowerCase()),
+          )
+          .toList();
+    });
+  }
+
+  void _toggleSearch() {
+    setState(() {
+      isSearching = !isSearching;
+      if (!isSearching) {
+        _searchController.clear();
+        filteredBypassList = null;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<BypassBloc, BypassState>(
@@ -56,6 +89,7 @@ class BypassPageState extends State<BypassPage> {
           setState(() {
             loading = true;
             bypassList = null;
+            filteredBypassList = null;
           });
         } else if (state is BypassLoadSuccess) {
           bypassList = state.bypassList;
@@ -76,7 +110,7 @@ class BypassPageState extends State<BypassPage> {
               ),
               child: Column(
                 children: [
-                  header(),
+                  isSearching ? searchHeader() : header(),
                   body(),
                 ],
               ),
@@ -143,6 +177,15 @@ class BypassPageState extends State<BypassPage> {
                             ],
                           ),
                         ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.search_rounded,
+                            color: AppColors.surface(),
+                            size: Dimensions.size30,
+                          ),
+                          onPressed: _toggleSearch,
+                        ),
+                        SizedBox(width: Dimensions.size10),
                         Image.network(
                           Formats.spell(user!["fullName"]),
                           width: Dimensions.size70,
@@ -203,11 +246,74 @@ class BypassPageState extends State<BypassPage> {
           );
   }
 
+  Widget searchHeader() {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: Dimensions.size20,
+        right: Dimensions.size20,
+        top: Dimensions.size10,
+      ),
+      child: Row(
+        children: [
+          IconButton(
+            icon: Icon(
+              Icons.turn_left_rounded,
+              color: AppColors.surface(),
+              size: Dimensions.size30,
+            ),
+            onPressed: _toggleSearch,
+          ),
+          Expanded(
+            child: Container(
+              height: Dimensions.size50,
+              decoration: BoxDecoration(
+                color: AppColors.surfaceContainerLowest(),
+                borderRadius: BorderRadius.circular(Dimensions.size15),
+              ),
+              child: Center(
+                child: TextField(
+                  controller: _searchController,
+                  autofocus: true,
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    hintText: "Search Bypass...",
+                    hintStyle: TextStyle(color: AppColors.onSurfaceVariant()),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.size15,
+                      vertical: Dimensions.size10,
+                    ),
+                    isDense: true,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: AppColors.onSurface(),
+                      ),
+                      onPressed: () {
+                        _searchController.clear();
+                        _filterBypassList("");
+                      },
+                    ),
+                  ),
+                  style: TextStyle(color: AppColors.onSurface()),
+                  onChanged: _filterBypassList,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: Dimensions.size10),
+        ],
+      ),
+    );
+  }
+
   Widget body() {
     if (loading) {
       return BaseWidgets.shimmer();
     } else {
-      if (bypassList != null && bypassList!.isNotEmpty) {
+      final displayList = filteredBypassList ?? bypassList;
+
+      if (displayList != null && displayList.isNotEmpty) {
         return Padding(
           padding: EdgeInsets.all(Dimensions.size20),
           child: SizedBox(
@@ -218,9 +324,9 @@ class BypassPageState extends State<BypassPage> {
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
               ),
-              itemCount: bypassList!.length,
+              itemCount: displayList.length,
               itemBuilder: (context, index) {
-                final item = bypassList![index];
+                final item = displayList[index];
                 return InkWell(
                   onTap: () async {
                     context.push(
@@ -284,7 +390,7 @@ class BypassPageState extends State<BypassPage> {
           ),
         );
       } else {
-        return bypassList == null
+        return displayList == null
             ? BaseWidgets.loadingFail()
             : BaseWidgets.noData();
       }

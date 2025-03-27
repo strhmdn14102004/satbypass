@@ -7,11 +7,11 @@ import "package:easy_localization/easy_localization.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:go_router/go_router.dart";
 import "package:sasat_toko/helper/formats.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_bloc.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_event.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_state.dart";
-import "package:sasat_toko/module/payment/payment_page.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:smooth_corner/smooth_corner.dart";
 
@@ -212,7 +212,9 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
                     height: Dimensions.size10,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 120,),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 120,
+                    ),
                     child: ListTile(
                       onTap: () async {
                         context
@@ -287,23 +289,27 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
                       smoothness: 1,
                     ),
                     onTap: () async {
-                      if (transaction.paymentUrl != null &&
-                          transaction.paymentUrl!.isNotEmpty) {
-                        bool? paymentSuccess = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PaymentWebViewPage(
-                              paymentUrl: transaction.paymentUrl.toString(),
-                            ),
-                          ),
-                        );
+                      // if (transaction.paymentUrl != null &&
+                      //     transaction.paymentUrl!.isNotEmpty) {
+                      //   bool? paymentSuccess = await Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => PaymentWebViewPage(
+                      //         paymentUrl: transaction.paymentUrl.toString(),
+                      //       ),
+                      //     ),
+                      //   );
 
-                        if (paymentSuccess == true) {
-                          context
-                              .read<HistoryTransactionBloc>()
-                              .add(FetchHistoryTransaction());
-                        }
-                      }
+                      //   if (paymentSuccess == true) {
+                      //     context
+                      //         .read<HistoryTransactionBloc>()
+                      //         .add(FetchHistoryTransaction());
+                      //   }
+                      // }
+                      context.pushNamed(
+                        "transaction-detail",
+                        pathParameters: {"id": transaction.id},
+                      );
                     },
                     child: Ink(
                       padding: EdgeInsets.all(Dimensions.size20),

@@ -25,6 +25,8 @@ import "package:sasat_toko/module/bypass/bypass_bloc.dart";
 import "package:sasat_toko/module/bypass/bypass_page.dart";
 import "package:sasat_toko/module/create_transaction/create_transaction_bloc.dart";
 import "package:sasat_toko/module/create_transaction/create_transaction_page.dart";
+import "package:sasat_toko/module/detail_transaction/detail_transaction_bloc.dart";
+import "package:sasat_toko/module/detail_transaction/detail_transaction_page.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_bloc.dart";
 import "package:sasat_toko/module/history_transaction/history_transaction_page.dart";
 import "package:sasat_toko/module/home/home_bloc.dart";
@@ -62,6 +64,14 @@ final goRouter = GoRouter(
       path: "/imei-list",
       builder: (context, state) {
         return const ImeiPage();
+      },
+    ),
+     GoRoute(
+      path: "/transaction/:id",
+      name: "transaction-detail",
+      builder: (context, state) {
+        final transactionId = state.pathParameters["id"]!;
+        return TransactionDetailPage(transactionId: transactionId);
       },
     ),
     GoRoute(
@@ -307,12 +317,11 @@ class AppState extends State<App> {
         BlocProvider(create: (BuildContext context) => RootBloc()),
         BlocProvider(create: (BuildContext context) => HomeBloc()),
         BlocProvider(create: (BuildContext context) => AccountBloc()),
-        BlocProvider(
-          create: (BuildContext context) => HistoryTransactionBloc(),
-        ),
+        BlocProvider(create: (BuildContext context) => HistoryTransactionBloc(),),
         BlocProvider(create: (BuildContext context) => ImeiBloc()),
         BlocProvider(create: (BuildContext context) => BypassBloc()),
         BlocProvider(create: (BuildContext context) => TransactionBloc()),
+        BlocProvider(create: (BuildContext context) => TransactionDetailBloc()),
       ],
       child: MultiProvider(
         providers: [

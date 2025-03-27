@@ -200,4 +200,25 @@ class ApiManager {
       rethrow;
     }
   }
+  // Add this to your api_manager.dart
+static Future<Response> getTransactionDetail(String transactionId) async {
+  Dio dio = await getDio();
+  final prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString("auth_token");
+  
+  if (token == null || token.isEmpty) {
+    throw Exception("Token tidak ditemukan. Harap login kembali.");
+  }
+  
+  Response response = await dio.get(
+    "${ApiUrl.DETAIL_TRANSAKSI.path}$transactionId",
+    options: Options(
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    ),
+  );
+  
+  return response;
+}
 }
