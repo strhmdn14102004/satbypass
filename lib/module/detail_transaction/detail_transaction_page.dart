@@ -217,7 +217,7 @@ class TransactionDetailPageState extends State<TransactionDetailPage> {
             ]),
             SizedBox(height: Dimensions.size20),
             _buildDetailSection("detail".tr(), [
-              _buildDetailItem("Item_type".tr(), rawData.itemType),
+             
               _buildDetailItem("Item_id".tr(), rawData.itemId),
               _buildDetailItem("Item_name".tr(), rawData.itemName),
               _buildDetailItem("status".tr(), rawData.status),

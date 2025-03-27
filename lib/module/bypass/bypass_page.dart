@@ -92,7 +92,9 @@ class BypassPageState extends State<BypassPage> {
             filteredBypassList = null;
           });
         } else if (state is BypassLoadSuccess) {
-          bypassList = state.bypassList;
+          bypassList = state.bypassList
+              .where((item) => item.name.contains("Bypass (A12)"))
+              .toList();
           setState(() {});
         } else if (state is BypassLoadFinished) {
           setState(() {
@@ -158,7 +160,7 @@ class BypassPageState extends State<BypassPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                Formats.spell("Bypass".tr()),
+                                Formats.spell("Bypass A12 Series".tr()),
                                 style: TextStyle(
                                   color: AppColors.surface(),
                                   fontSize: Dimensions.text16,
