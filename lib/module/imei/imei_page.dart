@@ -23,7 +23,7 @@ class ImeiPage extends StatefulWidget {
 class ImeiPageState extends State<ImeiPage> {
   bool loading = false;
   List<ImeiModel>? imeiList;
-  List<ImeiModel>? filteredImeiList; // For search results
+  List<ImeiModel>? filteredImeiList;
   Map<String, dynamic>? user;
   bool isSearching = false;
   final TextEditingController _searchController = TextEditingController();
@@ -177,7 +177,6 @@ class ImeiPageState extends State<ImeiPage> {
                             ],
                           ),
                         ),
-                        // Add search icon button here
                         IconButton(
                           icon: Icon(
                             Icons.search_rounded,
@@ -187,7 +186,6 @@ class ImeiPageState extends State<ImeiPage> {
                           onPressed: _toggleSearch,
                         ),
                         SizedBox(width: Dimensions.size10),
-                        // Profile image remains the same
                         Image.network(
                           Formats.spell(user!["fullName"]),
                           width: Dimensions.size70,
@@ -273,21 +271,19 @@ class ImeiPageState extends State<ImeiPage> {
                 borderRadius: BorderRadius.circular(Dimensions.size15),
               ),
               child: Center(
-                // Tambahkan widget Center di sini
                 child: TextField(
                   controller: _searchController,
                   autofocus: true,
-                  textAlignVertical: TextAlignVertical.center, // Tambahkan ini
+                  textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     hintText: "Search IMEI...",
                     hintStyle: TextStyle(color: AppColors.onSurfaceVariant()),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: Dimensions.size15,
-                      vertical: Dimensions.size10, // Sesuaikan padding vertikal
+                      vertical: Dimensions.size10,
                     ),
-                    isDense:
-                        true, // Tambahkan ini untuk padding yang lebih presisi
+                    isDense: true,
                     suffixIcon: IconButton(
                       icon: Icon(
                         Icons.close,

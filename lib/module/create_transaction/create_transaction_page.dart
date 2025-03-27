@@ -15,13 +15,13 @@ import "package:sasat_toko/module/payment/payment_page.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:smooth_corner/smooth_corner.dart";
 
-class TransactionPage extends StatefulWidget {
+class CreateaTransactionPage extends StatefulWidget {
   final String itemId;
   final String name;
   final String itemType;
   final double price;
 
-  const TransactionPage({
+  const CreateaTransactionPage({
     super.key,
     required this.itemId,
     required this.itemType,
@@ -30,10 +30,10 @@ class TransactionPage extends StatefulWidget {
   });
 
   @override
-  State<TransactionPage> createState() => _TransactionPageState();
+  State<CreateaTransactionPage> createState() => _CreateaTransactionPageState();
 }
 
-class _TransactionPageState extends State<TransactionPage> {
+class _CreateaTransactionPageState extends State<CreateaTransactionPage> {
   bool isLoading = false;
   Map<String, dynamic>? user;
 

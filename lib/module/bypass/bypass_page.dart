@@ -23,7 +23,7 @@ class BypassPage extends StatefulWidget {
 class BypassPageState extends State<BypassPage> {
   bool loading = false;
   List<BypassModel>? bypassList;
-  List<BypassModel>? filteredBypassList; // For search results
+  List<BypassModel>? filteredBypassList;
   Map<String, dynamic>? user;
   bool isSearching = false;
   final TextEditingController _searchController = TextEditingController();

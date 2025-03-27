@@ -213,14 +213,14 @@ class TransactionDetailPageState extends State<TransactionDetailPage> {
               _buildDetailItem("Product".tr(), details.produk),
               _buildDetailItem("Price".tr(), details.harga),
               _buildDetailItem("Time".tr(), details.waktu),
-              _buildDetailItem("Status".tr(), details.statusTerbaru),
+              _buildDetailItem("Payment_status".tr(), details.statusTerbaru),
             ]),
             SizedBox(height: Dimensions.size20),
             _buildDetailSection("detail".tr(), [
               _buildDetailItem("Item_type".tr(), rawData.itemType),
               _buildDetailItem("Item_id".tr(), rawData.itemId),
               _buildDetailItem("Item_name".tr(), rawData.itemName),
-              _buildDetailItem("Payment_status".tr(), rawData.status),
+              _buildDetailItem("status".tr(), rawData.status),
               _buildDetailItem("Created_At".tr(), rawData.createdAt.toString()),
             ]),
             if (rawData.paymentUrl.isNotEmpty) ...[

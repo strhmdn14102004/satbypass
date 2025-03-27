@@ -67,7 +67,7 @@ final goRouter = GoRouter(
       },
     ),
      GoRoute(
-      path: "/transaction/:id",
+      path: "/transaction-detail/:id",
       name: "transaction-detail",
       builder: (context, state) {
         final transactionId = state.pathParameters["id"]!;
@@ -86,7 +86,7 @@ final goRouter = GoRouter(
             ? (extra?["price"] as int).toDouble()
             : (extra?["price"] ?? 0.0);
 
-        return TransactionPage(
+        return CreateaTransactionPage(
           itemId: itemId,
           name: name,
           price: price,

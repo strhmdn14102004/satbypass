@@ -289,23 +289,7 @@ class HistoryTransactionPageState extends State<HistoryTransactionPage>
                       smoothness: 1,
                     ),
                     onTap: () async {
-                      // if (transaction.paymentUrl != null &&
-                      //     transaction.paymentUrl!.isNotEmpty) {
-                      //   bool? paymentSuccess = await Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => PaymentWebViewPage(
-                      //         paymentUrl: transaction.paymentUrl.toString(),
-                      //       ),
-                      //     ),
-                      //   );
-
-                      //   if (paymentSuccess == true) {
-                      //     context
-                      //         .read<HistoryTransactionBloc>()
-                      //         .add(FetchHistoryTransaction());
-                      //   }
-                      // }
+                     
                       context.pushNamed(
                         "transaction-detail",
                         pathParameters: {"id": transaction.id},
