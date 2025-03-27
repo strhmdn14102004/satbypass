@@ -298,18 +298,18 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
               await context.push("/fmi-off-openmenu");
             },
           ),
-           item(
+          item(
             label: "MACBOOK_BYPASS".tr(),
             icon: Icons.laptop_mac_rounded,
             onTap: () async {
               await context.push("/macbook-bypass");
             },
           ),
-            item(
+          item(
             label: "UNLOCK_APPLE_WATCH".tr(),
             icon: Icons.watch_rounded,
             onTap: () async {
-              await context.push("/unlock-apple-watch");
+              await context.push("/bypass-apple-watch");
             },
           ),
         ],

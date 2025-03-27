@@ -33,6 +33,12 @@ import "package:sasat_toko/module/home/home_bloc.dart";
 import "package:sasat_toko/module/home/home_page.dart";
 import "package:sasat_toko/module/imei/imei_bloc.dart";
 import "package:sasat_toko/module/imei/imei_page.dart";
+import "package:sasat_toko/module/lainnya/bypass_a11.dart";
+import "package:sasat_toko/module/lainnya/bypass_apple_watch.dart";
+import "package:sasat_toko/module/lainnya/bypass_macbook.dart";
+import "package:sasat_toko/module/lainnya/bypass_mdm.dart";
+import "package:sasat_toko/module/lainnya/fmi_off_page.dart";
+import "package:sasat_toko/module/lainnya/remove_icloud_page.dart";
 import "package:sasat_toko/module/root/root_bloc.dart";
 import "package:sasat_toko/module/root/root_page.dart";
 import "package:sasat_toko/module/sign_in/sign_in_bloc.dart";
@@ -66,7 +72,7 @@ final goRouter = GoRouter(
         return const ImeiPage();
       },
     ),
-     GoRoute(
+    GoRoute(
       path: "/transaction-detail/:id",
       name: "transaction-detail",
       builder: (context, state) {
@@ -98,6 +104,42 @@ final goRouter = GoRouter(
       path: "/bypass-list",
       builder: (context, state) {
         return const BypassPage();
+      },
+    ),
+    GoRoute(
+      path: "/bypass-a11",
+      builder: (context, state) {
+        return const BypassA11Page();
+      },
+    ),
+    GoRoute(
+      path: "/bypass-apple-watch",
+      builder: (context, state) {
+        return const BypassAppleWatchPage();
+      },
+    ),
+    GoRoute(
+      path: "/macbook-bypass",
+      builder: (context, state) {
+        return const BypassMacBookPage();
+      },
+    ),
+     GoRoute(
+      path: "/bypass-mdm",
+      builder: (context, state) {
+        return const BypassMDMPage();
+      },
+    ),
+     GoRoute(
+      path: "/remove-icloud",
+      builder: (context, state) {
+        return const RemoveIcloudPage();
+      },
+    ),
+    GoRoute(
+      path: "/fmi-off-openmenu",
+      builder: (context, state) {
+        return const FmiOffPage();
       },
     ),
     StatefulShellRoute.indexedStack(
@@ -317,7 +359,9 @@ class AppState extends State<App> {
         BlocProvider(create: (BuildContext context) => RootBloc()),
         BlocProvider(create: (BuildContext context) => HomeBloc()),
         BlocProvider(create: (BuildContext context) => AccountBloc()),
-        BlocProvider(create: (BuildContext context) => HistoryTransactionBloc(),),
+        BlocProvider(
+          create: (BuildContext context) => HistoryTransactionBloc(),
+        ),
         BlocProvider(create: (BuildContext context) => ImeiBloc()),
         BlocProvider(create: (BuildContext context) => BypassBloc()),
         BlocProvider(create: (BuildContext context) => TransactionBloc()),
